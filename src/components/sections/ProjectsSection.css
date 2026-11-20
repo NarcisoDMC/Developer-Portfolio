@@ -126,7 +126,7 @@
 
 .project-card-media[data-surface="dark-blue"],
 .project-dialog-media[data-surface="dark-blue"] {
-  background-color: #173741;
+  background-color: #173741a1;
   border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
@@ -138,7 +138,7 @@
 
 .project-card-media[data-surface="dark-indigo"],
 .project-dialog-media[data-surface="dark-indigo"] {
-  background-color: #1a213e;
+  background-color: #1a213e93;
   border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
