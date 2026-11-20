@@ -1,12 +1,11 @@
 <p align="center">
-  <img src="public/images/profile-david.jpg" alt="David Alexis — Full-Stack & AI Engineer" width="150" />
+  <img src="public/images/profile-david.jpg" alt="David Alexis" width="120" />
 </p>
 
-<h1 align="center">David Alexis · Portafolio Web</h1>
+<h1 align="center">Portafolio Web · David Alexis</h1>
 
 <p align="center">
-  <strong>Ingeniero en Sistemas Computacionales · Full-Stack & AI Engineer</strong><br />
-  Portafolio personal construido con Next.js 16, React 19 y TypeScript.
+  Aplicación de una sola página construida con <strong>Next.js 16 (App Router)</strong>, <strong>React 19</strong>, <strong>TypeScript</strong>, <strong>Tailwind CSS 4</strong>, <strong>Motion</strong> y envío de correo con <strong>Resend</strong>.
 </p>
 
 <p align="center">
@@ -21,105 +20,158 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/NarcisoDMC/Developer-Portfolio/blob/main/LICENSE"><img src="https://img.shields.io/github/license/NarcisoDMC/Developer-Portfolio?style=for-the-badge" alt="Licencia" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/NarcisoDMC/Developer-Portfolio?style=for-the-badge" alt="Licencia" /></a>
   <a href="https://github.com/NarcisoDMC/Developer-Portfolio/commits/main"><img src="https://img.shields.io/github/last-commit/NarcisoDMC/Developer-Portfolio?style=for-the-badge&logo=github" alt="Último commit" /></a>
   <a href="https://github.com/NarcisoDMC/Developer-Portfolio"><img src="https://img.shields.io/github/repo-size/NarcisoDMC/Developer-Portfolio?style=for-the-badge" alt="Tamaño del repositorio" /></a>
 </p>
 
 ---
 
-## Sobre el proyecto
+## Resumen técnico
 
-Portafolio profesional de una sola página para presentar proyectos, stack técnico, experiencia con código abierto y vías de contacto. Está construido con el **App Router de Next.js**, componentes de servidor por defecto, Server Actions para el formulario y una capa visual propia sobre CSS moderno y Tailwind CSS.
+- **Aplicación estática con una Server Action:** no hay base de datos, autenticación ni CMS. El contenido vive en `src/data/portfolio.ts` y el único proceso de escritura es el formulario de contacto.
+- **Renderizado server-first:** `layout.tsx` y `page.tsx` son Server Components; los componentes que necesitan motion, estado local o APIs del navegador son Client Components.
+- **Formulario con Server Action:** validación en servidor, honeypot anti-spam, timeout de 10 s y llamada directa a la API REST de Resend.
+- **Calidad integrada:** cabeceras de seguridad en `next.config.ts`, metadata/Open Graph/Twitter, JSON-LD, `robots.txt`, `sitemap.xml`, imágenes AVIF/WebP y animaciones con `prefers-reduced-motion`.
 
-El sitio prioriza tres cosas:
+---
 
-- **Rendimiento:** menos JavaScript en cliente, fuentes optimizadas, imágenes en AVIF/WebP y animaciones que respetan `prefers-reduced-motion`.
-- **Accesibilidad:** navegación por teclado, skip link, regiones semánticas, estados de error anunciados y contraste cuidado.
-- **Mantenibilidad:** contenido centralizado en `src/data/portfolio.ts`, tipos estrictos y componentes separados por responsabilidad.
+## Stack
 
-### Secciones
+| Capa | Tecnología | Versión | Uso |
+| --- | --- | --- | --- |
+| Runtime | Node.js | `>= 20.9.0` | Requerido por Next.js 16. |
+| Framework | Next.js | `16.4.6` | App Router, Server Components, Server Actions, Metadata API. |
+| UI | React | `19.3.1` | Componentes, `useActionState`, estado local. |
+| Lenguaje | TypeScript | `^5.8.0` | Tipos estrictos del contenido y de las props. |
+| Estilos | Tailwind CSS | `^4.3.5` | Utilidades, tokens CSS y CSS por componente. |
+| Animación | Motion | `^14.14.0` | Scroll reveals, transiciones, progreso de scroll. |
+| Correo | Resend API | REST | `POST https://api.resend.com/emails`. |
+| Fuentes | `next/font` | — | Inter + JetBrains Mono con `display: swap`. |
+| Paquetes | pnpm | `9+` | Lockfile `9.0`. |
+| Lint | ESLint | `^9.39.0` | `eslint-config-next`. |
 
-| Sección | Contenido |
+### Dependencias principales
+
+```json
+{
+  "next": "16.4.6",
+  "react": "19.3.1",
+  "react-dom": "19.3.1",
+  "motion": "^14.14.0"
+}
+```
+
+No hay librería de UI, gestor de estado global, ORM ni cliente HTTP adicional. El formulario usa `fetch` nativo y la API de Resend directamente.
+
+---
+
+## Arquitectura
+
+```mermaid
+flowchart LR
+  U["Usuario"] -->|"HTTP"| B["Navegador"]
+  B -->|"Request"| N["Next.js 16<br/>App Router"]
+  N -->|"Server Components"| R["Render en servidor"]
+  N -->|"Server Action"| A["submitContactForm"]
+  A -->|"Validación + honeypot"| V["Reglas de negocio"]
+  V -->|"POST /emails"| RS["Resend API"]
+  RS -->|"Entrega"| I["CONTACT_TO_EMAIL"]
+  R -->|"HTML + RSC"| B
+```
+
+### Límites cliente/servidor
+
+| Archivo | Tipo | Responsabilidad |
+| --- | --- | --- |
+| `src/app/layout.tsx` | Server | Metadata, fuentes, `MotionProvider`, header, footer y skip link. |
+| `src/app/page.tsx` | Server | Composición de secciones y JSON-LD `Person`. |
+| `src/components/ui/SectionHeading.tsx` | Server | Encabezado presentacional sin estado. |
+| `src/components/layout/SiteHeader.tsx` | Client | Scroll, sección activa y menú móvil. |
+| `src/components/layout/SiteFooter.tsx` | Client | Enlaces animados. |
+| `src/components/motion/ScrollReveal.tsx` | Client | `useScroll`, `useSpring`, `useTransform` y `useReducedMotion`. |
+| `src/components/sections/*` | Client | Motion, estado local, diálogo de proyecto y formulario. |
+| `src/components/sections/ProjectDetailDialog.tsx` | Client | `<dialog>` nativo, foco, cierre animado y `AnimatePresence`. |
+
+La separación busca que el HTML inicial se genere en servidor y que el JavaScript de cliente quede acotado a las secciones interactivas.
+
+### Flujo de contenido
+
+```mermaid
+flowchart LR
+  D["src/data/portfolio.ts"] --> T["src/types/portfolio.ts"]
+  D --> S["Secciones"]
+  D --> M["Metadata / SEO"]
+  D --> J["JSON-LD Person"]
+```
+
+`portfolio.ts` es la fuente única de verdad. Los tipos de `types/portfolio.ts` validan la forma del contenido en tiempo de compilación; no hay fetching de contenido en runtime.
+
+---
+
+## Flujo del formulario
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor U as Usuario
+  participant C as ContactSection
+  participant A as submitContactForm
+  participant R as Resend API
+
+  U->>C: Envía formulario
+  C->>A: FormData + estado previo
+  A->>A: Valida campos y honeypot
+  alt Datos inválidos
+    A-->>C: fieldErrors
+    C-->>U: Errores por campo
+  else Datos válidos
+    A->>R: POST /emails
+    R-->>A: 200 (id)
+    A-->>C: success + debugInfo (dev)
+    C-->>U: Confirmación
+  end
+```
+
+### Reglas de validación
+
+| Campo | Regla |
 | --- | --- |
-| **Hero** | Presentación, rol, foto de perfil y llamadas a la acción. |
-| **Proyectos** | Casos destacados con arquitectura, retos, impacto, stack y enlaces. |
-| **Stack** | Pilares técnicos: frontend, backend/datos, IA/optimización y sistemas/hardware. |
-| **GitHub** | Perfil, áreas de enfoque y banner de **Whenly App** (próximamente). |
-| **Contacto** | Datos profesionales y formulario con envío real por correo. |
+| `name` | Entre 2 y 100 caracteres. |
+| `email` | Formato válido, máximo 160 caracteres, sin `\r` ni `\n`. |
+| `message` | Entre 10 y 3000 caracteres. |
+| `hp_field_check` | Honeypot: debe estar vacío. Si tiene contenido, el envío se descarta silenciosamente. |
 
----
+### Payload enviado a Resend
 
-## Stack tecnológico
+```json
+{
+  "from": "Portafolio <onboarding@resend.dev>",
+  "to": ["CONTACT_TO_EMAIL"],
+  "reply_to": "correo-del-visitante@ejemplo.com",
+  "subject": "[Portafolio] Nuevo mensaje de <nombre>",
+  "text": "Nombre: ...\nCorreo: ...\n\nMensaje:\n..."
+}
+```
 
-| Área | Tecnologías |
+- `from` sale de `CONTACT_FROM_EMAIL` o del valor por defecto `Portafolio <onboarding@resend.dev>`.
+- `to` sale de `CONTACT_TO_EMAIL`.
+- `reply_to` es el correo escrito por el visitante; no se usa como remitente.
+- La petición usa `AbortSignal.timeout(10000)`.
+
+### Diagnóstico en desarrollo
+
+La Server Action registra un `requestId` y devuelve `debugInfo.stage` solo en desarrollo:
+
+| Stage | Significado |
 | --- | --- |
-| **Framework** | Next.js 16 (App Router, Server Components, Server Actions) |
-| **UI** | React 19, TypeScript 5.8, Tailwind CSS 4, CSS Grid/Subgrid |
-| **Animación** | Motion 14 (`motion/react`), scroll reveals, barra de progreso |
-| **Formularios** | Server Actions, validación en servidor, honeypot anti-spam |
-| **Correo** | Resend API (`POST /emails`) con `reply_to` y timeout de 10 s |
-| **Tipografía** | `next/font` con Inter y JetBrains Mono, `display: swap` |
-| **Herramientas** | pnpm, ESLint 9, TypeScript estricto |
-| **SEO** | Metadata API, Open Graph, Twitter Cards, `robots.txt`, `sitemap.xml` |
-| **Seguridad** | Cabeceras HTTP en `next.config.ts`, CSP parcial, `poweredByHeader: false` |
+| `resend-sent` | Resend aceptó el correo; incluye `emailId`. |
+| `resend-http-error` | Resend respondió con error HTTP; incluye `resendStatus` y el mensaje. |
+| `resend-network-exception` | Falló la conexión o se agotó el timeout. |
+| `honeypot-blocked` | El campo oculto venía relleno. |
+| `missing-env-demo-fallback` | Faltan variables de entorno; no se envió correo. |
 
----
-
-## Proyectos destacados
-
-<table>
-  <tr>
-    <td align="center" width="120" bgcolor="#0b1020">
-      <img src="public/images/projects/optigo-logo.svg" width="90" alt="Logotipo de OptiGo AI" />
-    </td>
-    <td>
-      <h3>OptiGo AI</h3>
-      <p><strong>HackMTY 2025 · Reto Infosys</strong></p>
-      <p>Sistema de despacho y simulación para repartidores independientes mediante IA. Motor VRP con restricciones de capacidad y prioridad, asistente analítico con DeepSeek y panel operativo en Next.js.</p>
-      <p><code>Django</code> <code>Next.js</code> <code>OR-Tools</code> <code>DeepSeek</code></p>
-      <p><a href="https://github.com/alo-py/Reto-Infosys">Ver repositorio en GitHub →</a></p>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="120" bgcolor="#0b1020">
-      <img src="public/images/projects/librerio-logo.svg" width="90" alt="Logotipo de Librerio App" />
-    </td>
-    <td>
-      <h3>Librerio App</h3>
-      <p><strong>Plataforma social de lectura · 2025</strong></p>
-      <p>Comunidad lectora con asistente conversacional consciente del progreso de lectura, estanterías colaborativas, reseñas y recomendaciones sin spoilers. Frontend SSR/RSC en Next.js, API REST en Express y persistencia con Supabase.</p>
-      <p><code>Next.js</code> <code>Express</code> <code>TypeScript</code> <code>Supabase</code></p>
-      <p><a href="https://librerio-app.vercel.app/">Ver demo →</a></p>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="120" bgcolor="#0b1020">
-      <img src="public/images/projects/cosmolight-logo.svg" width="90" alt="Logotipo de CosmoLights" />
-    </td>
-    <td>
-      <h3>CosmoLights</h3>
-      <p><strong>Controlador de hardware open source · 2025</strong></p>
-      <p>Daemon de comunicación serial en Python y una interfaz reactiva en React para controlar iluminación física con baja latencia: escenas, perfiles de color y sincronización en vivo.</p>
-      <p><code>Python</code> <code>React</code> <code>Serial / USB</code></p>
-      <p><a href="https://github.com/NarcisoDMC">Ver perfil en GitHub →</a></p>
-    </td>
-  </tr>
-</table>
-
----
-
-## Características principales
-
-- **Formulario de contacto funcional** con validación en servidor y envío real a través de Resend.
-- **Anti-spam sin fricción:** honeypot oculto `hp_field_check`; si se rellena, el envío se descarta silenciosamente.
-- **Server Actions** para evitar endpoints manuales y mantener la lógica sensible en el servidor.
-- **Diseño responsive** con CSS Grid/Subgrid y un sistema de tokens en `src/styles/tokens.css`.
-- **Motion accesible:** animaciones con `useReducedMotion` y transiciones que no bloquean la lectura.
-- **SEO completo:** metadata, Open Graph, Twitter Cards, `robots.ts` y `sitemap.ts`.
-- **Seguridad por defecto:** cabeceras CSP, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, COOP y CORP.
-- **Imágenes optimizadas** con `next/image` y formatos AVIF/WebP.
-- **Contenido desacoplado:** toda la información editable vive en `src/data/portfolio.ts`.
+> `onboarding@resend.dev` es el remitente de pruebas de Resend y solo puede enviar al correo dueño de la cuenta. Para producción se debe verificar un dominio y configurar `CONTACT_FROM_EMAIL`.
 
 ---
 
@@ -137,23 +189,23 @@ El sitio prioriza tres cosas:
 ├─ src/
 │  ├─ app/
 │  │  ├─ actions/
-│  │  │  └─ contact.ts          # Server Action + integración con Resend
+│  │  │  └─ contact.ts          # Server Action + Resend
 │  │  ├─ globals.css
-│  │  ├─ layout.tsx             # Metadata, fuentes y layout raíz
-│  │  ├─ page.tsx               # Composición de secciones
+│  │  ├─ layout.tsx             # Metadata, fuentes y shell
+│  │  ├─ page.tsx               # Composición + JSON-LD
 │  │  ├─ robots.ts
 │  │  └─ sitemap.ts
 │  ├─ components/
 │  │  ├─ layout/                # Header, footer, skip link
-│  │  ├─ motion/                # Provider, scroll reveals, progreso
-│  │  ├─ sections/              # Hero, proyectos, stack, GitHub, contacto
+│  │  ├─ motion/                # MotionProvider y scroll reveals
+│  │  ├─ sections/              # Secciones de la página
 │  │  └─ ui/                    # Componentes reutilizables
 │  ├─ data/
-│  │  └─ portfolio.ts           # Fuente única de contenido
+│  │  └─ portfolio.ts           # Contenido tipado
 │  ├─ styles/
 │  │  └─ tokens.css             # Variables de diseño
 │  └─ types/
-│     └─ portfolio.ts           # Tipos del contenido
+│     └─ portfolio.ts           # Contratos de datos
 ├─ next.config.ts               # Imágenes y cabeceras de seguridad
 ├─ package.json
 ├─ pnpm-lock.yaml
@@ -162,163 +214,140 @@ El sitio prioriza tres cosas:
 
 ---
 
-## Empezar
+## Variables de entorno
+
+Crea `.env.local` en la raíz. Está cubierto por `.gitignore` y no debe subirse.
+
+```env
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxx
+CONTACT_TO_EMAIL=tu-correo@dominio.com
+CONTACT_FROM_EMAIL=Portafolio <contacto@tudominio.com>
+NEXT_PUBLIC_SITE_URL=https://davidalexis.dev
+```
+
+| Variable | Obligatoria | Ámbito | Uso |
+| --- | --- | --- | --- |
+| `RESEND_API_KEY` | Sí | Servidor | Autentica `POST /emails`. Nunca debe exponerse al cliente. |
+| `CONTACT_TO_EMAIL` | Sí | Servidor | Destinatario de los mensajes. |
+| `CONTACT_FROM_EMAIL` | No | Servidor | Remitente verificado. Default: `Portafolio <onboarding@resend.dev>`. |
+| `NEXT_PUBLIC_SITE_URL` | No | Cliente/servidor | `metadataBase`, `robots.txt` y `sitemap.xml`. Default: `https://davidalexis.dev`. |
+
+---
+
+## Puesta en marcha
 
 ### Requisitos
 
-- **Node.js 20.9 o superior**
-- **pnpm 9 o superior**
+- Node.js `>= 20.9.0`
+- pnpm `9+`
 
-### Instalación
+### Instalación y desarrollo
 
 ```bash
 pnpm install
-```
-
-### Desarrollo
-
-```bash
 pnpm dev
 ```
 
-Abre [http://localhost:3000](http://localhost:3000).
+Disponible en [http://localhost:3000](http://localhost:3000).
 
-### Producción
+### Scripts
+
+| Comando | Descripción |
+| --- | --- |
+| `pnpm dev` | Servidor de desarrollo. |
+| `pnpm build` | Build de producción. |
+| `pnpm start` | Sirve la build de producción. |
+| `pnpm lint` | ESLint. |
+
+Actualmente no hay suite de tests automatizados; los controles disponibles son `pnpm lint` y `pnpm build`.
+
+---
+
+## Build y despliegue
 
 ```bash
 pnpm build
 pnpm start
 ```
 
-### Scripts disponibles
+Para Vercel:
 
-| Comando | Descripción |
-| --- | --- |
-| `pnpm dev` | Inicia el servidor de desarrollo con recarga en caliente. |
-| `pnpm build` | Genera la build de producción. |
-| `pnpm start` | Sirve la build de producción. |
-| `pnpm lint` | Ejecuta ESLint sobre el proyecto. |
+1. Importar el repositorio.
+2. Configurar `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` y `NEXT_PUBLIC_SITE_URL`.
+3. Build command: `pnpm build`.
+4. Verificar que `NEXT_PUBLIC_SITE_URL` apunte al dominio final.
 
----
-
-## Variables de entorno
-
-Crea un archivo `.env.local` en la raíz del proyecto. **Nunca lo subas al repositorio**; ya está cubierto por `.gitignore`.
-
-```env
-# Obligatorias para el envío de correos
-RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxx
-CONTACT_TO_EMAIL=tu-correo@dominio.com
-
-# Opcionales
-CONTACT_FROM_EMAIL=Portafolio <contacto@tudominio.com>
-NEXT_PUBLIC_SITE_URL=https://davidalexis.dev
-```
-
-| Variable | Obligatoria | Uso |
-| --- | --- | --- |
-| `RESEND_API_KEY` | Sí | Autentica las llamadas a la API de Resend. Solo debe existir en el servidor. |
-| `CONTACT_TO_EMAIL` | Sí | Bandeja que recibe los mensajes del formulario. |
-| `CONTACT_FROM_EMAIL` | No | Remitente verificado. Por defecto: `Portafolio <onboarding@resend.dev>`. |
-| `NEXT_PUBLIC_SITE_URL` | No | URL pública usada en metadata, `robots.txt` y `sitemap.xml`. Por defecto: `https://davidalexis.dev`. |
-
-> **Importante:** `onboarding@resend.dev` es el remitente de pruebas de Resend y **solo puede enviar al correo dueño de la cuenta**. Para enviar a otros destinatarios, verifica un dominio en Resend y configura `CONTACT_FROM_EMAIL` con ese dominio.
+`.env.local` no se despliega; las variables deben configurarse en el panel de la plataforma.
 
 ---
 
-## Cómo funciona el formulario de contacto
-
-1. El visitante completa nombre, correo y mensaje.
-2. El navegador envía el `FormData` a la Server Action `submitContactForm` (`src/app/actions/contact.ts`).
-3. El servidor valida:
-   - Nombre entre 2 y 100 caracteres.
-   - Correo con formato válido y sin saltos de línea.
-   - Mensaje entre 10 y 3000 caracteres.
-   - Honeypot `hp_field_check` vacío.
-4. Si todo es válido, se llama a `https://api.resend.com/emails` con:
-   - `from`: `CONTACT_FROM_EMAIL` o `onboarding@resend.dev`.
-   - `to`: `CONTACT_TO_EMAIL`.
-   - `reply_to`: el correo que escribió el visitante.
-   - `subject`: `[Portafolio] Nuevo mensaje de <nombre>`.
-5. Resend responde con el `id` del correo y la interfaz muestra el estado del envío.
-
-### Notas de desarrollo
-
-- Si faltan `RESEND_API_KEY` o `CONTACT_TO_EMAIL`, la acción **no envía** y devuelve un mensaje informativo de configuración pendiente.
-- En desarrollo, la Server Action registra un `requestId` y un `debugInfo.stage` (`resend-sent`, `resend-http-error`, `honeypot-blocked`, etc.) para facilitar el diagnóstico.
-- El honeypot está oculto visualmente y tiene atributos para que gestores de contraseñas y extensiones no lo rellenen (`autoComplete="nope"`, `data-lpignore`, `data-1p-ignore`, `data-form-type="other"`).
-
----
-
-## SEO, rendimiento y seguridad
-
-### SEO
-
-- Metadata global con título, descripción, keywords, autor y `metadataBase`.
-- Open Graph y Twitter Cards configurados en `src/app/layout.tsx`.
-- `robots.txt` generado desde `src/app/robots.ts`.
-- `sitemap.xml` generado desde `src/app/sitemap.ts`.
-
-### Rendimiento
-
-- Componentes de servidor por defecto; cliente solo donde hay interactividad.
-- Fuentes autohospedadas por `next/font` con `display: swap`.
-- Formatos de imagen AVIF y WebP configurados en `next.config.ts`.
-- CSS propio y Tailwind en lugar de librerías de UI pesadas.
-- Animaciones con Motion y respeto a `prefers-reduced-motion`.
-
-### Seguridad
+## Seguridad
 
 `next.config.ts` aplica estas cabeceras a todas las rutas:
 
-- `X-Frame-Options: DENY`
-- `X-Content-Type-Options: nosniff`
-- `Referrer-Policy: strict-origin-when-cross-origin`
-- `Permissions-Policy: camera=(), geolocation=(), microphone=()`
-- `Cross-Origin-Opener-Policy: same-origin-allow-popups`
-- `Cross-Origin-Resource-Policy: same-origin`
-- `Content-Security-Policy: frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'`
+| Cabecera | Valor |
+| --- | --- |
+| `X-Frame-Options` | `DENY` |
+| `X-Content-Type-Options` | `nosniff` |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` |
+| `Permissions-Policy` | `camera=(), geolocation=(), microphone=()` |
+| `Cross-Origin-Opener-Policy` | `same-origin-allow-popups` |
+| `Cross-Origin-Resource-Policy` | `same-origin` |
+| `Content-Security-Policy` | `frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'` |
 
-Además, `poweredByHeader` está desactivado y las variables sensibles nunca se exponen al cliente.
+Además:
 
----
-
-## Despliegue
-
-El proyecto está listo para desplegarse en **Vercel** o en cualquier plataforma compatible con Next.js.
-
-1. Importa el repositorio en tu plataforma.
-2. Configura las variables de entorno del apartado anterior.
-3. Usa `pnpm build` como comando de build.
-4. Verifica que `NEXT_PUBLIC_SITE_URL` coincida con el dominio final para que metadata, sitemap y robots apunten a la URL correcta.
-
-> `.env.local` no se despliega. Las variables deben configurarse en el panel de la plataforma.
+- `poweredByHeader: false`.
+- La API key solo se lee en la Server Action; no llega al bundle del cliente.
+- El formulario combina validación server-side y honeypot.
+- El JSON-LD escapa `<` como `\u003c` antes de inyectarse con `dangerouslySetInnerHTML`.
+- `.env*` está ignorado por Git, salvo `.env.example`.
 
 ---
 
-## Estado del proyecto
+## Rendimiento
 
-- [x] Diseño responsive de una sola página.
-- [x] Secciones de proyectos, stack, GitHub y contacto.
-- [x] Formulario con validación en servidor y envío por Resend.
-- [x] Metadata, Open Graph, Twitter Cards, `robots.txt` y `sitemap.xml`.
-- [x] Cabeceras de seguridad y optimización de imágenes.
-- [ ] Más casos de estudio y métricas de impacto.
-- [ ] Internacionalización español/inglés.
-- [ ] Pruebas end-to-end del formulario y la navegación.
+- **Server-first:** `layout.tsx` y `page.tsx` se renderizan en servidor; el cliente solo hidrata las secciones que lo necesitan.
+- **Sin fetching de contenido:** `portfolio.ts` se importa en build/runtime de servidor; no hay llamadas a APIs externas para renderizar la página.
+- **Imágenes:** `next/image` para la foto de perfil y formatos `image/avif` + `image/webp` en `next.config.ts`.
+- **Fuentes:** `next/font` con `display: swap` y variables CSS para Inter y JetBrains Mono.
+- **CSS:** tokens propios en `src/styles/tokens.css` + Tailwind; sin librería de componentes.
+- **Motion:** `MotionConfig reducedMotion="user"` y `useReducedMotion` evitan animaciones cuando el usuario lo solicita.
 
 ---
 
-## Contacto
+## Accesibilidad
 
-- **Correo:** [davidalexisdelatorre@gmail.com](mailto:davidalexisdelatorre@gmail.com)
-- **GitHub:** [@NarcisoDMC](https://github.com/NarcisoDMC)
-- **LinkedIn:** [davidalexisdelatorre](https://www.linkedin.com/in/davidalexisdelatorre/)
+- `SkipLink` para saltar al contenido principal.
+- Secciones con `aria-labelledby`, `tabIndex={-1}` y encabezados semánticos.
+- Formulario con `aria-invalid`, `aria-describedby`, región `role="status"` y foco en el primer campo inválido.
+- `ProjectDetailDialog` usa `<dialog>` nativo, `showModal()`, manejo de foco y cierre con teclado.
+- Iconos decorativos con `aria-hidden="true"` y etiquetas accesibles donde corresponde.
+- Animaciones desactivables con `prefers-reduced-motion`.
+
+---
+
+## SEO
+
+- Metadata API en `src/app/layout.tsx`: título con template, descripción, keywords, autor y `metadataBase`.
+- Open Graph y Twitter Cards configurados.
+- JSON-LD `Person` en `src/app/page.tsx`, con `sameAs` y `knowsAbout` derivado de los pilares del stack.
+- `src/app/robots.ts` genera `robots.txt`.
+- `src/app/sitemap.ts` genera `sitemap.xml`.
+- `NEXT_PUBLIC_SITE_URL` controla la URL base de metadata, robots y sitemap.
+
+---
+
+## Proyectos
+
+| Proyecto | Stack | Enlaces |
+| --- | --- | --- |
+| <img src="public/images/projects/optigo-logo.svg" width="72" alt="OptiGo AI" /><br />**OptiGo AI** | Django · Next.js · OR-Tools · DeepSeek | [Repositorio](https://github.com/alo-py/Reto-Infosys) |
+| <img src="public/images/projects/librerio-logo.svg" width="72" alt="Librerio App" /><br />**Librerio App** | Next.js · Express · TypeScript · Supabase | [Demo](https://librerio-app.vercel.app/) · [Repositorio](https://github.com/NarcisoDMC/LibrerioApp-Official) |
+| <img src="public/images/projects/cosmolight-logo.svg" width="72" alt="CosmoLights" /><br />**CosmoLights** | Python · React · Serial/USB | [Repositorio](https://github.com/NarcisoDMC/CosmoLights) |
 
 ---
 
 ## Licencia
 
-Este proyecto está distribuido bajo la **GNU General Public License v3.0**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
-
-Las imágenes, logotipos y contenido del portafolio pertenecen a sus respectivos autores y se incluyen como parte de la presentación del proyecto.
+GNU General Public License v3.0. Consulta [LICENSE](LICENSE).

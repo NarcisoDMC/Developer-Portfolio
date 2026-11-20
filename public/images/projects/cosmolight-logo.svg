@@ -7,7 +7,7 @@
    viewBox="0 0 200 180"
    version="1.1"
    id="svg1"
-   sodipodi:docname="CosmoLightLogo_Vertical.svg"
+   sodipodi:docname="cosmolight-logo.svg"
    inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -30,8 +30,8 @@
      inkscape:cy="389.60245"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
-     inkscape:window-x="-8"
-     inkscape:window-y="1072"
+     inkscape:window-x="1352"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1">
     <inkscape:grid
@@ -208,6 +208,6 @@
        transform="matrix(1.2618467,0,0,1.387343,-142.52613,-35.01176)"><tspan
          x="126.54689"
          y="139.1692"
-         id="tspan1">MessierOrbit</tspan></text>
+         id="tspan2">CosmoLights</tspan></text>
   </g>
 </svg>

@@ -108,8 +108,8 @@ export const portfolioData: PortfolioData = {
         liveUrl: "https://librerio-app.vercel.app/",
         liveLabel: "Página web",
         // TODO: Reemplaza con el enlace directo al repositorio específico de Librerio si es público
-        repoUrl: GITHUB_URL,
-        repoLabel: "Repositorio",
+        repoUrl: "https://github.com/NarcisoDMC/LibrerioApp-Official",
+        repoLabel: "Repositorio en GitHub",
       },
       {
         id: "cosmolights",
@@ -135,8 +135,8 @@ export const portfolioData: PortfolioData = {
         ],
         impact:
           "Integración directa hardware-software que reemplaza utilidades propietarias cerradas por un flujo abierto y extensible.",
-        repoUrl: GITHUB_URL,
-        repoLabel: "Ver perfil en GitHub",
+        repoUrl: "https://github.com/NarcisoDMC/CosmoLights",
+        repoLabel: "Repositorio en GitHub",
       },
     ],
   },
