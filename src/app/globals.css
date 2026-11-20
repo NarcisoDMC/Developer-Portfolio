@@ -30,6 +30,11 @@
     overflow-x: clip;
   }
 
+  .site-content {
+    position: relative;
+    z-index: 1;
+  }
+
   h1,
   h2,
   h3 {

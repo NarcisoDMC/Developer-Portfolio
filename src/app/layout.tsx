@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { portfolioData } from "@/data/portfolio";
+import { GlassOrbits } from "@/components/background/GlassOrbits";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ScrollProgressBar } from "@/components/motion/ScrollReveal";
 import { SkipLink } from "@/components/layout/SkipLink";
@@ -68,12 +69,15 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
+        <GlassOrbits />
         <MotionProvider>
-          <ScrollProgressBar />
-          <SkipLink />
-          <SiteHeader />
-          {children}
-          <SiteFooter />
+          <div className="site-content">
+            <ScrollProgressBar />
+            <SkipLink />
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+          </div>
         </MotionProvider>
       </body>
     </html>

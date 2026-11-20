@@ -1,0 +1,47 @@
+.glass-orbits {
+  --orbits-opacity: 1;
+
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  -webkit-mask-image: radial-gradient(
+    ellipse 105% 90% at 50% 42%,
+    #000 30%,
+    rgba(0, 0, 0, 0.78) 62%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 105% 90% at 50% 42%,
+    #000 30%,
+    rgba(0, 0, 0, 0.78) 62%,
+    transparent 100%
+  );
+}
+
+.glass-orbits[data-ready="true"] {
+  opacity: var(--orbits-opacity);
+}
+
+@media (max-width: 47.99rem) {
+  .glass-orbits {
+    --orbits-opacity: 0.68;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-orbits {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .glass-orbits {
+    display: none;
+  }
+}
