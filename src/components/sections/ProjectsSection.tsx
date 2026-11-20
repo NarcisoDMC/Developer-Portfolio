@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { portfolioData } from "@/data/portfolio";
 import type { PortfolioData, ProjectItem } from "@/types/portfolio";
 import {
   FadeInBlock,
@@ -20,16 +20,33 @@ interface ProjectsSectionProps {
 }
 
 export function ProjectsSection({
-  projectsSection = portfolioData.projectsSection,
-  footerLabel = portfolioData.footerLabel,
+  projectsSection,
+  footerLabel,
 }: ProjectsSectionProps) {
+  const { data } = useLanguage();
+  const resolvedProjectsSection = projectsSection ?? data.projectsSection;
+  const resolvedFooterLabel = footerLabel ?? data.footerLabel;
+
   const shouldReduceMotion = useReducedMotion();
-  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
     null,
   );
 
+  const selectedProject = useMemo<ProjectItem | null>(() => {
+    if (!selectedProjectId) return null;
+    return (
+      resolvedProjectsSection.items.find(
+        (item) => item.id === selectedProjectId,
+      ) ?? null
+    );
+  }, [resolvedProjectsSection.items, selectedProjectId]);
+
+  const handleSelect = useCallback((project: ProjectItem) => {
+    setSelectedProjectId(project.id);
+  }, []);
+
   const handleClose = useCallback(() => {
-    setSelectedProject(null);
+    setSelectedProjectId(null);
   }, []);
 
   return (
@@ -43,18 +60,18 @@ export function ProjectsSection({
         <div className="portfolio-container">
           <FadeInBlock>
             <SectionHeading
-              eyebrow={projectsSection.eyebrow}
+              eyebrow={resolvedProjectsSection.eyebrow}
               id="proyectos-heading"
             />
           </FadeInBlock>
 
           <div className="projects-grid">
-            {projectsSection.items.map((project, index) => (
+            {resolvedProjectsSection.items.map((project, index) => (
               <ProjectCard
                 key={project.id}
                 project={project}
                 index={index}
-                onSelect={setSelectedProject}
+                onSelect={handleSelect}
               />
             ))}
           </div>
@@ -65,12 +82,12 @@ export function ProjectsSection({
                 className="font-mono-tech text-xs tracking-[0.06em]"
                 style={{ color: "var(--text-muted)" }}
               >
-                {footerLabel}
+                {resolvedFooterLabel}
               </span>
               <motion.a
-                href={projectsSection.foldNextHref}
+                href={resolvedProjectsSection.foldNextHref}
                 className="fold-cue font-mono-tech"
-                aria-label={projectsSection.foldNextLabel}
+                aria-label={resolvedProjectsSection.foldNextLabel}
                 whileHover={shouldReduceMotion ? undefined : { y: 2 }}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
                 transition={SPRING_SNAPPY}

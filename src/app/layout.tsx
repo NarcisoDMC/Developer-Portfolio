@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { portfolioData } from "@/data/portfolio";
 import { GlassOrbits } from "@/components/background/GlassOrbits";
+import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ScrollProgressBar } from "@/components/motion/ScrollReveal";
 import { SkipLink } from "@/components/layout/SkipLink";
@@ -70,15 +71,17 @@ export default function RootLayout({
     >
       <body>
         <GlassOrbits />
-        <MotionProvider>
-          <div className="site-content">
-            <ScrollProgressBar />
-            <SkipLink />
-            <SiteHeader />
-            {children}
-            <SiteFooter />
-          </div>
-        </MotionProvider>
+        <LanguageProvider>
+          <MotionProvider>
+            <div className="site-content">
+              <ScrollProgressBar />
+              <SkipLink />
+              <SiteHeader />
+              {children}
+              <SiteFooter />
+            </div>
+          </MotionProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

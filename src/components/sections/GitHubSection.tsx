@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { portfolioData } from "@/data/portfolio";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import {
   FadeInBlock,
@@ -11,8 +11,9 @@ import {
 import "./GitHubSection.css";
 
 export function GitHubSection() {
+  const { data } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
-  const { githubSection } = portfolioData;
+  const { githubSection, ui } = data;
   const { whenlyBanner } = githubSection;
 
   return (
@@ -61,7 +62,7 @@ export function GitHubSection() {
 
                 <ul
                   className="github-highlights"
-                  aria-label="Áreas de enfoque en GitHub"
+                  aria-label={ui.githubFocusAreasAriaLabel}
                 >
                   {githubSection.highlights.map((item) => (
                     <li
@@ -87,7 +88,7 @@ export function GitHubSection() {
                   <span>{githubSection.profileCtaLabel}</span>
                   <span aria-hidden="true">↗</span>
                   <span className="visually-hidden">
-                    (abre en nueva pestaña)
+                    {ui.opensInNewTab}
                   </span>
                 </motion.a>
               </div>
@@ -122,7 +123,7 @@ export function GitHubSection() {
 
                 <ul
                   className="whenly-banner-features"
-                  aria-label="Características clave de Whenly App"
+                  aria-label={ui.whenlyFeaturesAriaLabel}
                 >
                   {whenlyBanner.features.map((feature) => (
                     <li
@@ -148,7 +149,7 @@ export function GitHubSection() {
                   <span>{whenlyBanner.ctaLabel}</span>
                   <span aria-hidden="true">↗</span>
                   <span className="visually-hidden">
-                    (abre en nueva pestaña)
+                    {ui.opensInNewTab}
                   </span>
                 </motion.a>
               </div>

@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { portfolioData } from "@/data/portfolio";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import {
   submitContactForm,
   type ContactActionState,
@@ -24,9 +24,11 @@ const INITIAL_STATE: ContactActionState = {
 type ContactFieldName = "name" | "email" | "message";
 
 export function ContactSection() {
+  const { locale, data } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
-  const { contactSection } = portfolioData;
+  const { contactSection, ui } = data;
   const { contact } = contactSection;
+  const contactStrings = ui.contact;
 
   const formRef = useRef<HTMLFormElement>(null);
   const announcerRef = useRef<HTMLDivElement>(null);
@@ -375,7 +377,7 @@ export function ContactSection() {
 
                 <p className="contact-location">
                   <span className="contact-location-label font-mono-tech">
-                    Ubicación
+                    {contactStrings.locationLabel}
                   </span>
                   <span>{contact.location}</span>
                 </p>
@@ -383,7 +385,7 @@ export function ContactSection() {
                 <div className="contact-email-box">
                   <div className="contact-email-meta">
                     <span className="contact-email-label font-mono-tech">
-                      Correo directo
+                      {contactStrings.directEmailLabel}
                     </span>
                     <code
                       id="contact-email-value"
@@ -408,7 +410,7 @@ export function ContactSection() {
                     <span>GitHub</span>
                     <span aria-hidden="true">↗</span>
                     <span className="visually-hidden">
-                      (abre en nueva pestaña)
+                      {ui.opensInNewTab}
                     </span>
                   </motion.a>
                   <motion.a
@@ -423,7 +425,7 @@ export function ContactSection() {
                     <span>LinkedIn</span>
                     <span aria-hidden="true">↗</span>
                     <span className="visually-hidden">
-                      (abre en nueva pestaña)
+                      {ui.opensInNewTab}
                     </span>
                   </motion.a>
                 </div>
@@ -443,18 +445,20 @@ export function ContactSection() {
                   aria-labelledby="contact-form-heading"
                   className="contact-form"
                 >
+                  <input type="hidden" name="locale" value={locale} />
+
                   <div className="contact-field">
                     <label
                       htmlFor="contact-name"
                       className="contact-field-label"
                     >
-                      Nombre{" "}
+                      {contactStrings.nameLabel}{" "}
                       <span className="required-mark" aria-hidden="true">
                         *
                       </span>
                     </label>
                     <span id="contact-name-hint" className="field-hint">
-                      Mínimo 2 caracteres.
+                      {contactStrings.nameHint}
                     </span>
                     <input
                       id="contact-name"
@@ -480,8 +484,7 @@ export function ContactSection() {
                       <span role="img" aria-label="Error">
                         ⚠
                       </span>{" "}
-                      {serverErrors.name ||
-                        "Ingresa tu nombre (al menos 2 caracteres)."}
+                      {serverErrors.name || contactStrings.nameError}
                     </div>
                   </div>
 
@@ -490,13 +493,13 @@ export function ContactSection() {
                       htmlFor="contact-email"
                       className="contact-field-label"
                     >
-                      Correo electrónico{" "}
+                      {contactStrings.emailLabel}{" "}
                       <span className="required-mark" aria-hidden="true">
                         *
                       </span>
                     </label>
                     <span id="contact-email-hint" className="field-hint">
-                      Formato: tu@dominio.com
+                      {contactStrings.emailHint}
                     </span>
                     <input
                       id="contact-email"
@@ -524,8 +527,7 @@ export function ContactSection() {
                       <span role="img" aria-label="Error">
                         ⚠
                       </span>{" "}
-                      {serverErrors.email ||
-                        "Ingresa un correo electrónico válido (ejemplo: tu@dominio.com)."}
+                      {serverErrors.email || contactStrings.emailError}
                     </div>
                   </div>
 
@@ -534,14 +536,13 @@ export function ContactSection() {
                       htmlFor="contact-message"
                       className="contact-field-label"
                     >
-                      Mensaje{" "}
+                      {contactStrings.messageLabel}{" "}
                       <span className="required-mark" aria-hidden="true">
                         *
                       </span>
                     </label>
                     <span id="contact-message-hint" className="field-hint">
-                      Cuéntame sobre tu proyecto, objetivo o vacante (mínimo 10
-                      caracteres).
+                      {contactStrings.messageHint}
                     </span>
                     <textarea
                       id="contact-message"
@@ -566,8 +567,7 @@ export function ContactSection() {
                       <span role="img" aria-label="Error">
                         ⚠
                       </span>{" "}
-                      {serverErrors.message ||
-                        "Escribe un mensaje de al menos 10 caracteres."}
+                      {serverErrors.message || contactStrings.messageError}
                     </div>
                   </div>
 
@@ -588,7 +588,9 @@ export function ContactSection() {
                       }
                       transition={SPRING_SNAPPY}
                     >
-                      {isPending ? "Enviando..." : "Enviar mensaje"}
+                      {isPending
+                        ? contactStrings.submitPending
+                        : contactStrings.submitIdle}
                     </motion.button>
                   </div>
 
@@ -615,7 +617,9 @@ export function ContactSection() {
                   </motion.div>
 
                   <div className="visually-hidden" aria-hidden="true">
-                    <label htmlFor="contact-hp-field">No completar</label>
+                    <label htmlFor="contact-hp-field">
+                      {contactStrings.honeypotLabel}
+                    </label>
                     <input
                       id="contact-hp-field"
                       name="hp_field_check"

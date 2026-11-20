@@ -7,12 +7,13 @@ import {
   useReducedMotion,
   useScroll,
 } from "motion/react";
-import { portfolioData } from "@/data/portfolio";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { NavItem } from "@/types/portfolio";
 import {
   EASE_EDITORIAL,
   SPRING_SNAPPY,
 } from "@/components/motion/ScrollReveal";
+import { LanguageSwitch } from "./LanguageSwitch";
 import "./SiteHeader.css";
 
 export interface SiteHeaderProps {
@@ -23,13 +24,19 @@ export interface SiteHeaderProps {
 
 /**
  * Sticky frosted-glass site navigation header with spring active dot,
- * scroll-state elevation, and progressive scrollspy synchronization.
+ * scroll-state elevation, progressive scrollspy synchronization, and
+ * bilingual (ES / EN) switch control.
  */
 export function SiteHeader({
-  brandName = portfolioData.brandName,
-  brandBadge = portfolioData.brandBadge,
-  navItems = portfolioData.navItems,
+  brandName,
+  brandBadge,
+  navItems,
 }: SiteHeaderProps) {
+  const { data } = useLanguage();
+  const resolvedBrandName = brandName ?? data.brandName;
+  const resolvedBrandBadge = brandBadge ?? data.brandBadge;
+  const resolvedNavItems = navItems ?? data.navItems;
+
   const navRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
@@ -128,7 +135,7 @@ export function SiteHeader({
         cleanup();
       }
     };
-  }, [navItems]);
+  }, [resolvedNavItems]);
 
   return (
     <header
@@ -142,54 +149,62 @@ export function SiteHeader({
         transition={{ duration: 0.45, ease: EASE_EDITORIAL }}
       >
         <a href="#inicio" className="site-brand">
-          <span className="site-brand-name">{brandName}</span>
-          <span className="site-brand-badge">{brandBadge}</span>
+          <span className="site-brand-name">{resolvedBrandName}</span>
+          <span className="site-brand-badge">{resolvedBrandBadge}</span>
         </a>
 
-        <nav ref={navRef} aria-label="Principal" className="site-nav">
-          <ul className="site-nav-list">
-            {navItems.map((item) => {
-              const isExternal = Boolean(item.external);
-              const isActive = !isExternal && activeId === item.id;
-              return (
-                <li key={item.id} className="site-nav-item">
-                  <a
-                    href={item.href}
-                    className={
-                      isActive
-                        ? "site-nav-link target-current"
-                        : "site-nav-link"
-                    }
-                    aria-current={isActive ? "true" : undefined}
-                    target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noopener noreferrer" : undefined}
-                  >
-                    <span>{item.label}</span>
-                    {item.hasIndicatorDot ? (
-                      <span className="site-nav-ext-dot" aria-hidden="true">
-                        °
-                      </span>
-                    ) : null}
-                    {isExternal ? (
-                      <span className="visually-hidden">
-                        {" "}
-                        (abre en nueva pestaña)
-                      </span>
-                    ) : null}
-                    {isActive ? (
-                      <motion.span
-                        layoutId="nav-active-dot"
-                        className="site-nav-dot"
-                        transition={SPRING_SNAPPY}
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+        <div className="site-header-controls">
+          <nav
+            ref={navRef}
+            aria-label={data.ui.primaryNavAriaLabel}
+            className="site-nav"
+          >
+            <ul className="site-nav-list">
+              {resolvedNavItems.map((item) => {
+                const isExternal = Boolean(item.external);
+                const isActive = !isExternal && activeId === item.id;
+                return (
+                  <li key={item.id} className="site-nav-item">
+                    <a
+                      href={item.href}
+                      className={
+                        isActive
+                          ? "site-nav-link target-current"
+                          : "site-nav-link"
+                      }
+                      aria-current={isActive ? "true" : undefined}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                    >
+                      <span>{item.label}</span>
+                      {item.hasIndicatorDot ? (
+                        <span className="site-nav-ext-dot" aria-hidden="true">
+                          °
+                        </span>
+                      ) : null}
+                      {isExternal ? (
+                        <span className="visually-hidden">
+                          {" "}
+                          {data.ui.opensInNewTab}
+                        </span>
+                      ) : null}
+                      {isActive ? (
+                        <motion.span
+                          layoutId="nav-active-dot"
+                          className="site-nav-dot"
+                          transition={SPRING_SNAPPY}
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <LanguageSwitch />
+        </div>
       </motion.div>
     </header>
   );

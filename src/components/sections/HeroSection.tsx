@@ -8,7 +8,7 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import { portfolioData } from "@/data/portfolio";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { HeroData } from "@/types/portfolio";
 import {
   EASE_EDITORIAL,
@@ -24,7 +24,10 @@ export interface HeroSectionProps {
  * Above-the-fold Hero section preserving LCP avatar immediacy while adding
  * editorial staggered typography entrance and scrollytelling scroll depth.
  */
-export function HeroSection({ hero = portfolioData.hero }: HeroSectionProps) {
+export function HeroSection({ hero }: HeroSectionProps) {
+  const { data } = useLanguage();
+  const resolvedHero = hero ?? data.hero;
+
   const sectionRef = useRef<HTMLElement>(null);
   const shouldReduceMotion = useReducedMotion();
 
@@ -54,8 +57,8 @@ export function HeroSection({ hero = portfolioData.hero }: HeroSectionProps) {
         <div className="hero-avatar-frame">
           <span className="hero-avatar-halo" aria-hidden="true" />
           <Image
-            src={hero.avatarSrc}
-            alt={hero.avatarAlt}
+            src={resolvedHero.avatarSrc}
+            alt={resolvedHero.avatarAlt}
             width={112}
             height={112}
             quality={85}
@@ -75,9 +78,9 @@ export function HeroSection({ hero = portfolioData.hero }: HeroSectionProps) {
           transition={{ duration: 0.55, delay: 0.04, ease: EASE_EDITORIAL }}
         >
           <span lang="en">
-            {hero.titleLead}
-            <span className="hero-title-accent">{hero.titleAccent}</span>
-            {hero.titleTail}
+            {resolvedHero.titleLead}
+            <span className="hero-title-accent">{resolvedHero.titleAccent}</span>
+            {resolvedHero.titleTail}
           </span>
         </motion.h1>
 
@@ -87,7 +90,7 @@ export function HeroSection({ hero = portfolioData.hero }: HeroSectionProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.12, ease: EASE_EDITORIAL }}
         >
-          {hero.subtitle}
+          {resolvedHero.subtitle}
         </motion.p>
 
         <motion.div
@@ -97,25 +100,25 @@ export function HeroSection({ hero = portfolioData.hero }: HeroSectionProps) {
           transition={{ duration: 0.55, delay: 0.2, ease: EASE_EDITORIAL }}
         >
           <motion.a
-            href={hero.secondaryCta.href}
+            href={resolvedHero.secondaryCta.href}
             className="hero-cta hero-cta-secondary"
             whileHover={shouldReduceMotion ? undefined : { y: -2 }}
             whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
             transition={SPRING_SNAPPY}
           >
-            {hero.secondaryCta.label}{" "}
+            {resolvedHero.secondaryCta.label}{" "}
             <span className="font-mono-tech" aria-hidden="true">
               [↓]
             </span>
           </motion.a>
           <motion.a
-            href={hero.primaryCta.href}
+            href={resolvedHero.primaryCta.href}
             className="hero-cta hero-cta-primary"
             whileHover={shouldReduceMotion ? undefined : { y: -2 }}
             whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
             transition={SPRING_SNAPPY}
           >
-            {hero.primaryCta.label}{" "}
+            {resolvedHero.primaryCta.label}{" "}
             <span className="hero-cta-arrow" aria-hidden="true">
               →
             </span>

@@ -1,3 +1,5 @@
+export type Locale = "es" | "en";
+
 export type ProjectLogoSurface = "dark-blue" | "dark-purple" | "dark-indigo";
 
 export interface NavItem {
@@ -76,6 +78,51 @@ export interface ContactData {
   formHeading: string;
 }
 
+export interface PortfolioUiStrings {
+  pageTitle: string;
+  skipToContent: string;
+  primaryNavAriaLabel: string;
+  footerNavAriaLabel: string;
+  backToTopAriaLabel: string;
+  opensInNewTab: string;
+  languageSwitchPrefix: string;
+  languageSwitchTarget: string;
+  projectDialog: {
+    closeAriaLabel: string;
+    challengeHeading: string;
+    architectureHeading: string;
+    highlightsHeading: string;
+    impactHeading: string;
+    techStackHeading: string;
+    defaultLiveLabel: string;
+    defaultRepoLabel: string;
+  };
+  stackTechnologiesAriaPrefix: string;
+  githubFocusAreasAriaLabel: string;
+  whenlyFeaturesAriaLabel: string;
+  contact: {
+    locationLabel: string;
+    directEmailLabel: string;
+    copyEmailAriaLabel: string;
+    copyButtonIdle: string;
+    copyButtonCopied: string;
+    copyToastCopied: string;
+    copyToastFailed: string;
+    nameLabel: string;
+    nameHint: string;
+    nameError: string;
+    emailLabel: string;
+    emailHint: string;
+    emailError: string;
+    messageLabel: string;
+    messageHint: string;
+    messageError: string;
+    submitIdle: string;
+    submitPending: string;
+    honeypotLabel: string;
+  };
+}
+
 export interface PortfolioData {
   brandName: string;
   brandBadge: string;
@@ -111,4 +158,5 @@ export interface PortfolioData {
     title: string;
     contact: ContactData;
   };
+  ui: PortfolioUiStrings;
 }

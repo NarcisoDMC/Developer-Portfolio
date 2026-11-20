@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { portfolioData } from "@/data/portfolio";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { NavItem } from "@/types/portfolio";
 import { FadeInBlock, SPRING_SNAPPY } from "@/components/motion/ScrollReveal";
 
@@ -15,9 +15,12 @@ export interface SiteFooterProps {
  * compact secondary navigation, and accessible back-to-top link.
  */
 export function SiteFooter({
-  footerLabel = portfolioData.footerLabel,
-  navItems = portfolioData.navItems,
+  footerLabel,
+  navItems,
 }: SiteFooterProps) {
+  const { data } = useLanguage();
+  const resolvedFooterLabel = footerLabel ?? data.footerLabel;
+  const resolvedNavItems = navItems ?? data.navItems;
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -31,13 +34,13 @@ export function SiteFooter({
             className="font-mono-tech text-xs font-medium uppercase tracking-[0.08em]"
             style={{ color: "var(--text-muted)" }}
           >
-            {footerLabel}
+            {resolvedFooterLabel}
           </p>
 
           <div className="flex flex-wrap items-center justify-between gap-4 sm:justify-end sm:gap-6">
-            <nav aria-label="Pie de página">
+            <nav aria-label={data.ui.footerNavAriaLabel}>
               <ul className="m-0 flex list-none flex-wrap items-center gap-x-4 gap-y-2 p-0 sm:gap-x-5">
-                {navItems.map((item) => {
+                {resolvedNavItems.map((item) => {
                   const isExternal = Boolean(item.external);
                   return (
                     <li key={item.id}>
@@ -59,7 +62,7 @@ export function SiteFooter({
                         {isExternal ? (
                           <span className="visually-hidden">
                             {" "}
-                            (abre en nueva pestaña)
+                            {data.ui.opensInNewTab}
                           </span>
                         ) : null}
                       </a>
@@ -71,7 +74,7 @@ export function SiteFooter({
 
             <motion.a
               href="#inicio"
-              aria-label="Volver al inicio"
+              aria-label={data.ui.backToTopAriaLabel}
               whileHover={shouldReduceMotion ? undefined : { y: -2 }}
               whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
               transition={SPRING_SNAPPY}

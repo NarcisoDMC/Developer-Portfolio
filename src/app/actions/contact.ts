@@ -32,6 +32,9 @@ export async function submitContactForm(
   const startedAt = Date.now();
   const tag = `[contact-action][${requestId}]`;
 
+  const rawLocale = String(formData.get("locale") || "es").trim();
+  const isEn = rawLocale === "en";
+
   const honeypotValue = String(formData.get("hp_field_check") || "").trim();
   const name = String(formData.get("name") || "").trim();
   const email = String(formData.get("email") || "").trim();
@@ -39,6 +42,7 @@ export async function submitContactForm(
 
   console.info(tag, "Received submission", {
     timestamp: new Date().toISOString(),
+    locale: isEn ? "en" : "es",
     nameLen: name.length,
     emailPresent: email.length > 0,
     messageLen: message.length,
@@ -52,7 +56,7 @@ export async function submitContactForm(
     });
     return {
       status: "success",
-      message: "Mensaje recibido.",
+      message: isEn ? "Message received." : "Mensaje recibido.",
       debugInfo: buildDebugInfo({
         requestId,
         stage: "honeypot-blocked",
@@ -64,25 +68,37 @@ export async function submitContactForm(
   const fieldErrors: Partial<Record<"name" | "email" | "message", string>> = {};
 
   if (name.length < 2) {
-    fieldErrors.name = "Ingresa tu nombre (al menos 2 caracteres).";
+    fieldErrors.name = isEn
+      ? "Please enter your name (at least 2 characters)."
+      : "Ingresa tu nombre (al menos 2 caracteres).";
   } else if (name.length > 100) {
-    fieldErrors.name = "El nombre no debe exceder 100 caracteres.";
+    fieldErrors.name = isEn
+      ? "Name must not exceed 100 characters."
+      : "El nombre no debe exceder 100 caracteres.";
   }
 
   if (!email) {
-    fieldErrors.email = "Ingresa tu correo electrónico.";
+    fieldErrors.email = isEn
+      ? "Please enter your email address."
+      : "Ingresa tu correo electrónico.";
   } else if (email.length > 160) {
-    fieldErrors.email = "El correo electrónico no debe exceder 160 caracteres.";
+    fieldErrors.email = isEn
+      ? "Email address must not exceed 160 characters."
+      : "El correo electrónico no debe exceder 160 caracteres.";
   } else if (!EMAIL_PATTERN.test(email) || /[\r\n]/.test(email)) {
-    fieldErrors.email =
-      "Ingresa un correo electrónico válido (ejemplo: tu@dominio.com).";
+    fieldErrors.email = isEn
+      ? "Please enter a valid email address (e.g. you@domain.com)."
+      : "Ingresa un correo electrónico válido (ejemplo: tu@dominio.com).";
   }
 
   if (message.length < 10) {
-    fieldErrors.message =
-      "Cuéntame sobre tu proyecto o consulta (al menos 10 caracteres).";
+    fieldErrors.message = isEn
+      ? "Tell me about your project or inquiry (at least 10 characters)."
+      : "Cuéntame sobre tu proyecto o consulta (al menos 10 caracteres).";
   } else if (message.length > 3000) {
-    fieldErrors.message = "El mensaje no debe exceder 3000 caracteres.";
+    fieldErrors.message = isEn
+      ? "Message must not exceed 3000 characters."
+      : "El mensaje no debe exceder 3000 caracteres.";
   }
 
   if (Object.keys(fieldErrors).length > 0) {
@@ -91,7 +107,9 @@ export async function submitContactForm(
     });
     return {
       status: "error",
-      message: "Revisa los campos marcados antes de enviar.",
+      message: isEn
+        ? "Please review the highlighted fields before submitting."
+        : "Revisa los campos marcados antes de enviar.",
       fieldErrors,
       debugInfo: buildDebugInfo({
         requestId,
@@ -129,8 +147,9 @@ export async function submitContactForm(
     });
     return {
       status: "success",
-      message:
-        "Mensaje validado correctamente. Configura RESEND_API_KEY en producción para habilitar el envío directo por correo.",
+      message: isEn
+        ? "Message validated successfully. Configure RESEND_API_KEY in production to enable direct email delivery."
+        : "Mensaje validado correctamente. Configura RESEND_API_KEY en producción para habilitar el envío directo por correo.",
       debugInfo: buildDebugInfo({
         requestId,
         stage: "missing-env-demo-fallback",
@@ -184,8 +203,9 @@ export async function submitContactForm(
       });
       return {
         status: "error",
-        message:
-          "No se pudo enviar el mensaje en este momento. Intenta de nuevo o escríbeme directamente por correo.",
+        message: isEn
+          ? "Could not send the message right now. Please try again or email me directly."
+          : "No se pudo enviar el mensaje en este momento. Intenta de nuevo o escríbeme directamente por correo.",
         debugInfo: buildDebugInfo({
           requestId,
           stage: "resend-http-error",
@@ -209,8 +229,9 @@ export async function submitContactForm(
 
     return {
       status: "success",
-      message:
-        "Mensaje enviado correctamente. Gracias por escribir, te responderé pronto.",
+      message: isEn
+        ? "Message sent successfully. Thanks for reaching out—I'll get back to you soon."
+        : "Mensaje enviado correctamente. Gracias por escribir, te responderé pronto.",
       debugInfo: buildDebugInfo({
         requestId,
         stage: "resend-sent",
@@ -231,8 +252,9 @@ export async function submitContactForm(
 
     return {
       status: "error",
-      message:
-        "Error de conexión al enviar el mensaje. Intenta de nuevo o escríbeme directamente por correo.",
+      message: isEn
+        ? "Connection error while sending the message. Please try again or email me directly."
+        : "Error de conexión al enviar el mensaje. Intenta de nuevo o escríbeme directamente por correo.",
       debugInfo: buildDebugInfo({
         requestId,
         stage: "resend-network-exception",

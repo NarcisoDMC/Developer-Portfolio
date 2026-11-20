@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import type { ProjectItem } from "@/types/portfolio";
 import {
   EASE_EDITORIAL,
@@ -17,6 +18,9 @@ export function ProjectDetailDialog({
   project,
   onClose,
 }: ProjectDetailDialogProps) {
+  const { data } = useLanguage();
+  const dialogStrings = data.ui.projectDialog;
+
   const titleId = useId();
   const shouldReduceMotion = useReducedMotion();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -203,7 +207,7 @@ export function ProjectDetailDialog({
                 ref={closeBtnRef}
                 type="button"
                 onClick={startClose}
-                aria-label="Cerrar detalle del proyecto"
+                aria-label={dialogStrings.closeAriaLabel}
                 autoFocus
                 className="dialog-close-btn"
                 whileHover={shouldReduceMotion ? undefined : { scale: 1.05 }}
@@ -252,7 +256,7 @@ export function ProjectDetailDialog({
               <div className="project-dialog-sections">
                 <section className="project-dialog-section">
                   <h3 className="project-dialog-section-title font-mono-tech">
-                    Desafío
+                    {dialogStrings.challengeHeading}
                   </h3>
                   <p className="project-dialog-section-text">
                     {renderedProject.challenge}
@@ -261,7 +265,7 @@ export function ProjectDetailDialog({
 
                 <section className="project-dialog-section">
                   <h3 className="project-dialog-section-title font-mono-tech">
-                    Arquitectura Técnica
+                    {dialogStrings.architectureHeading}
                   </h3>
                   <p className="project-dialog-section-text">
                     {renderedProject.architecture}
@@ -270,11 +274,14 @@ export function ProjectDetailDialog({
 
                 <section className="project-dialog-section">
                   <h3 className="project-dialog-section-title font-mono-tech">
-                    Puntos Clave
+                    {dialogStrings.highlightsHeading}
                   </h3>
                   <ul className="project-dialog-highlights">
                     {renderedProject.highlights.map((highlight) => (
-                      <li key={highlight} className="project-dialog-highlight-item">
+                      <li
+                        key={highlight}
+                        className="project-dialog-highlight-item"
+                      >
                         <span
                           className="project-dialog-bullet"
                           aria-hidden="true"
@@ -289,7 +296,7 @@ export function ProjectDetailDialog({
 
                 <section className="project-dialog-section">
                   <h3 className="project-dialog-section-title font-mono-tech">
-                    Impacto
+                    {dialogStrings.impactHeading}
                   </h3>
                   <p className="project-dialog-section-text">
                     {renderedProject.impact}
@@ -298,7 +305,7 @@ export function ProjectDetailDialog({
 
                 <section className="project-dialog-section">
                   <h3 className="project-dialog-section-title font-mono-tech">
-                    Tech Stack
+                    {dialogStrings.techStackHeading}
                   </h3>
                   <ul className="project-dialog-stack">
                     {renderedProject.stack.map((tech) => (
@@ -332,10 +339,13 @@ export function ProjectDetailDialog({
                     whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                     transition={SPRING_SNAPPY}
                   >
-                    <span>{renderedProject.liveLabel ?? "Página web"}</span>
+                    <span>
+                      {renderedProject.liveLabel ??
+                        dialogStrings.defaultLiveLabel}
+                    </span>
                     <span aria-hidden="true">↗</span>
                     <span className="visually-hidden">
-                      (abre en nueva pestaña)
+                      {data.ui.opensInNewTab}
                     </span>
                   </motion.a>
                 ) : null}
@@ -350,11 +360,12 @@ export function ProjectDetailDialog({
                     transition={SPRING_SNAPPY}
                   >
                     <span>
-                      {renderedProject.repoLabel ?? "Ver repositorio en GitHub"}
+                      {renderedProject.repoLabel ??
+                        dialogStrings.defaultRepoLabel}
                     </span>
                     <span aria-hidden="true">↗</span>
                     <span className="visually-hidden">
-                      (abre en nueva pestaña)
+                      {data.ui.opensInNewTab}
                     </span>
                   </motion.a>
                 ) : null}

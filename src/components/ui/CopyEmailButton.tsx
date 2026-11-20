@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { SPRING_SNAPPY } from "@/components/motion/ScrollReveal";
 
 interface CopyEmailButtonProps {
@@ -14,10 +15,11 @@ interface CommandLikeEvent extends Event {
   command?: string;
 }
 
-export function CopyEmailButton({
-  targetId,
-  label = "Copiar correo electrónico",
-}: CopyEmailButtonProps) {
+export function CopyEmailButton({ targetId, label }: CopyEmailButtonProps) {
+  const { data } = useLanguage();
+  const contactStrings = data.ui.contact;
+  const resolvedLabel = label ?? contactStrings.copyEmailAriaLabel;
+
   const shouldReduceMotion = useReducedMotion();
   const [copied, setCopied] = useState(false);
   const [tipStatus, setTipStatus] = useState<"idle" | "copied" | "failed">(
@@ -29,47 +31,52 @@ export function CopyEmailButton({
   const rafRef = useRef<number | undefined>(undefined);
   const lastMessageRef = useRef("");
 
-  const report = useCallback((ok: boolean) => {
-    const button = buttonRef.current;
-    const tip = tipRef.current;
-    if (!button || !tip) return;
+  const report = useCallback(
+    (ok: boolean) => {
+      const button = buttonRef.current;
+      const tip = tipRef.current;
+      if (!button || !tip) return;
 
-    window.clearTimeout(timerRef.current);
-    if (rafRef.current !== undefined) {
-      window.cancelAnimationFrame(rafRef.current);
-    }
-
-    button.removeAttribute("data-copied");
-    button.removeAttribute("data-failed");
-
-    let message = ok ? "Copiado" : "No se pudo copiar";
-    if (message === lastMessageRef.current) {
-      message += "\u00A0";
-    }
-    lastMessageRef.current = message;
-
-    tip.textContent = "";
-    void button.offsetWidth;
-    button.setAttribute(ok ? "data-copied" : "data-failed", "");
-    setCopied(ok);
-    setTipStatus(ok ? "copied" : "failed");
-
-    rafRef.current = window.requestAnimationFrame(() => {
-      if (tipRef.current) {
-        tipRef.current.textContent = message;
+      window.clearTimeout(timerRef.current);
+      if (rafRef.current !== undefined) {
+        window.cancelAnimationFrame(rafRef.current);
       }
-    });
 
-    timerRef.current = window.setTimeout(() => {
-      buttonRef.current?.removeAttribute("data-copied");
-      buttonRef.current?.removeAttribute("data-failed");
-      setCopied(false);
-      setTipStatus("idle");
-      if (tipRef.current) {
-        tipRef.current.textContent = "";
+      button.removeAttribute("data-copied");
+      button.removeAttribute("data-failed");
+
+      let message = ok
+        ? contactStrings.copyToastCopied
+        : contactStrings.copyToastFailed;
+      if (message === lastMessageRef.current) {
+        message += "\u00A0";
       }
-    }, 2200);
-  }, []);
+      lastMessageRef.current = message;
+
+      tip.textContent = "";
+      void button.offsetWidth;
+      button.setAttribute(ok ? "data-copied" : "data-failed", "");
+      setCopied(ok);
+      setTipStatus(ok ? "copied" : "failed");
+
+      rafRef.current = window.requestAnimationFrame(() => {
+        if (tipRef.current) {
+          tipRef.current.textContent = message;
+        }
+      });
+
+      timerRef.current = window.setTimeout(() => {
+        buttonRef.current?.removeAttribute("data-copied");
+        buttonRef.current?.removeAttribute("data-failed");
+        setCopied(false);
+        setTipStatus("idle");
+        if (tipRef.current) {
+          tipRef.current.textContent = "";
+        }
+      }, 2200);
+    },
+    [contactStrings.copyToastCopied, contactStrings.copyToastFailed],
+  );
 
   const copyTarget = useCallback(async () => {
     const target = document.getElementById(targetId);
@@ -141,7 +148,7 @@ export function CopyEmailButton({
           command: "--copy",
           commandfor: targetId,
         } as Record<string, string>)}
-        aria-label={label}
+        aria-label={resolvedLabel}
         whileHover={shouldReduceMotion ? undefined : { y: -1 }}
         whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
         transition={SPRING_SNAPPY}
@@ -201,7 +208,11 @@ export function CopyEmailButton({
             )}
           </AnimatePresence>
         </span>
-        <span className="copy-btn-label">{copied ? "Copiado" : "Copiar"}</span>
+        <span className="copy-btn-label">
+          {copied
+            ? contactStrings.copyButtonCopied
+            : contactStrings.copyButtonIdle}
+        </span>
       </motion.button>
       <motion.span
         ref={tipRef}

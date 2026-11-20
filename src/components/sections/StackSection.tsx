@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { portfolioData } from "@/data/portfolio";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import {
   FadeInBlock,
@@ -13,8 +13,9 @@ import {
 import "./StackSection.css";
 
 export function StackSection() {
+  const { data } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
-  const { stackSection } = portfolioData;
+  const { stackSection, ui } = data;
   const { pillars } = stackSection;
 
   return (
@@ -53,7 +54,7 @@ export function StackSection() {
 
                   <ul
                     className="stack-tags"
-                    aria-label={`Tecnologías de ${pillar.title}`}
+                    aria-label={`${ui.stackTechnologiesAriaPrefix} ${pillar.title}`}
                   >
                     {pillar.technologies.map((tech) => (
                       <li key={tech} className="stack-tag font-mono-tech">
