@@ -1,0 +1,85 @@
+:root {
+  color-scheme: dark;
+  --in-oklab: ;
+
+  /* Base Canvas */
+  --bg-canvas: #0f1b24;
+  --bg-canvas-deep: #0b141c;
+
+  /* Minimalist Glassmorphism Surfaces */
+  --glass-bg: linear-gradient(
+    180deg var(--in-oklab),
+    rgba(255, 255, 255, 0.048) 0%,
+    rgba(255, 255, 255, 0.016) 100%
+  );
+  --glass-bg-hover: linear-gradient(
+    180deg var(--in-oklab),
+    rgba(255, 255, 255, 0.078) 0%,
+    rgba(255, 255, 255, 0.028) 100%
+  );
+  --glass-bg-header: rgba(13, 21, 29, 0.72);
+  --glass-bg-header-stuck: rgba(12, 20, 28, 0.88);
+  --glass-bg-modal: rgba(16, 27, 37, 0.92);
+  --glass-border: rgba(255, 255, 255, 0.095);
+  --glass-border-hover: rgba(255, 255, 255, 0.19);
+  --glass-border-control: rgba(255, 255, 255, 0.16);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  --glass-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    0 14px 36px -14px rgba(2, 8, 16, 0.58),
+    0 2px 6px rgba(2, 8, 16, 0.28);
+  --glass-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 22px 44px -16px rgba(2, 8, 16, 0.70),
+    0 4px 12px rgba(2, 8, 16, 0.34);
+  --glass-blur: 18px;
+
+  /* Compatibility Semantic Tokens */
+  --bg-header: var(--glass-bg-header);
+  --bg-header-stuck: var(--glass-bg-header-stuck);
+  --bg-card: #13222f;
+  --bg-card-elevated: var(--glass-bg-modal);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+  --bg-pill: rgba(255, 255, 255, 0.045);
+
+  --border-subtle: var(--glass-border);
+  --border-strong: var(--glass-border-hover);
+  --border-control: var(--glass-border-control);
+  --glow-cyan: rgba(56, 145, 178, 0.22);
+  --glow-cyan-soft: rgba(56, 145, 178, 0.09);
+
+  /* Interactive Controls */
+  --btn-primary-bg: #3b5875;
+  --btn-primary-hover: color-mix(in oklab, var(--btn-primary-bg), white 11%);
+  --btn-secondary-bg: rgba(255, 255, 255, 0.055);
+  --btn-secondary-hover: rgba(255, 255, 255, 0.095);
+
+  /* Typography Hierarchy (>= 4.5:1 WCAG AA verified against dark glass surfaces) */
+  --text-primary: #f1f5f9;
+  --text-accent-muted: #9ab3c4;
+  --text-secondary: #a3b5c7;
+  --text-muted: #889db1;
+
+  /* States & Focus */
+  --focus-ring: #93c5fd;
+  --error-color: #fda4af;
+  --error-border: #f87171;
+  --error-bg: rgba(248, 113, 113, 0.10);
+  --success-color: #86efac;
+  --success-border: #4ade80;
+
+  /* Layout & Radii */
+  --header-height: 4.35rem;
+  --container-max: 72rem;
+  --header-max: 84rem;
+  --radius-card: 1.125rem;
+  --radius-media: 0.875rem;
+  --radius-btn: 0.5rem;
+  --radius-pill: 9999px;
+}
+
+@supports (background: linear-gradient(in oklab, white, black)) {
+  :root {
+    --in-oklab: in oklab;
+  }
+}

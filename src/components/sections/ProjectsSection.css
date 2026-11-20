@@ -1,0 +1,532 @@
+.projects-section {
+  padding-block: clamp(2.5rem, 4.5vw, 4rem);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.project-card {
+  box-sizing: border-box;
+  position: relative;
+  container: project-card / inline-size;
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  gap: 0.875rem;
+  padding: 1.375rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(135%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(135%);
+  box-shadow: var(--glass-shadow);
+  transition:
+    border-color 200ms ease,
+    background 200ms ease,
+    box-shadow 220ms ease;
+}
+
+.project-card:has(.card-trigger:hover) {
+  border-color: var(--glass-border-hover);
+  background: var(--glass-bg-hover);
+  box-shadow: var(--glass-shadow-hover);
+}
+
+.project-card:has(.card-trigger:focus-visible) {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-color: var(--glass-border-hover);
+  background: var(--glass-bg-hover);
+}
+
+.project-card-header {
+  display: flex;
+  flex-direction: column;
+  align-content: start;
+  gap: 0.25rem;
+  min-inline-size: 0;
+}
+
+.project-card-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.project-card-title {
+  margin: 0;
+  font-size: clamp(1.125rem, 1.05rem + 1.2cqi, 1.25rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+
+.project-card-arrow {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.card-trigger {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.card-trigger::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-card);
+}
+
+.card-trigger:focus-visible {
+  outline: none;
+}
+
+.project-card-subtitle {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text-accent-muted);
+}
+
+.project-card-desc {
+  margin: 0;
+  align-self: start;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.project-card-media {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  min-block-size: 11rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-media);
+  overflow: clip;
+  forced-color-adjust: none;
+}
+
+.project-card-media[data-surface="dark-blue"],
+.project-dialog-media[data-surface="dark-blue"] {
+  background-color: #173741;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.project-card-media[data-surface="dark-purple"],
+.project-dialog-media[data-surface="dark-purple"] {
+  background-color: #7d6996b0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.project-card-media[data-surface="dark-indigo"],
+.project-dialog-media[data-surface="dark-indigo"] {
+  background-color: #1a213e;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.project-card-logo {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: 13.5rem;
+  max-block-size: 8.5rem;
+  object-fit: contain;
+}
+
+.project-card-footer {
+  display: flex;
+  align-items: center;
+  align-self: end;
+  min-inline-size: 0;
+  padding-block-start: 0.25rem;
+}
+
+.project-card-stack {
+  min-inline-size: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+@container project-card (inline-size >= 21rem) {
+  .project-card-media {
+    min-block-size: 11.75rem;
+    padding: 1.375rem;
+  }
+}
+
+@media (min-width: 56rem) {
+  .projects-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto minmax(11rem, 1fr) auto;
+    column-gap: 1.25rem;
+    row-gap: 1.25rem;
+  }
+
+  .project-card {
+    grid-row: span 4;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto; /* Same-cascade fallback */
+    grid-template-rows: subgrid;
+    row-gap: 0.875rem;
+    padding: 1.375rem;
+  }
+}
+
+.projects-fold-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-start: 1.75rem;
+}
+
+.fold-cue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  padding-inline: 0.375rem;
+  border-radius: var(--radius-btn);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.fold-cue:hover {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Project Detail Modal (<dialog> + frosted glass surface)
+   ========================================================================== */
+
+.project-dialog {
+  margin: auto;
+  padding: 0;
+  inline-size: min(calc(100dvw - 2rem), 46rem);
+  max-inline-size: calc(100dvw - 2rem);
+  max-block-size: min(88dvb, 54rem);
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  overflow: visible;
+}
+
+.project-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-dialog:modal {
+  overscroll-behavior: contain;
+}
+
+.project-dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgba(4, 10, 16, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.project-dialog-surface {
+  display: flex;
+  flex-direction: column;
+  max-block-size: min(88dvb, 54rem);
+  border: 1px solid var(--glass-border-hover);
+  border-radius: var(--radius-card);
+  background-color: var(--glass-bg-modal);
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 28px 64px -18px rgba(2, 8, 16, 0.85);
+  overflow: hidden;
+}
+
+.project-dialog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.375rem 1rem;
+  border-block-end: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.project-dialog-heading-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-inline-size: 0;
+}
+
+.project-dialog-badge {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-accent-muted);
+}
+
+.project-dialog-title {
+  margin: 0;
+  font-size: clamp(1.35rem, 1.15rem + 0.9vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.project-dialog-subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.dialog-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  inline-size: 44px;
+  block-size: 44px;
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  padding: 0;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: var(--glass-highlight);
+  color: var(--text-secondary);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.dialog-close-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--glass-border-hover);
+  color: var(--text-primary);
+}
+
+.project-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.375rem;
+  flex: 1 1 auto;
+  min-block-size: 0;
+  padding: 1.375rem 1.375rem 1.5rem;
+  text-align: start;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.project-dialog-media {
+  display: grid;
+  place-items: center;
+  min-block-size: 10rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-media);
+  overflow: clip;
+  forced-color-adjust: none;
+}
+
+.project-dialog-logo {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: 14rem;
+  max-block-size: 8.5rem;
+  object-fit: contain;
+}
+
+.project-dialog-lead {
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  text-align: start;
+  color: var(--text-primary);
+}
+
+.project-dialog-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.project-dialog-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-inline: 0;
+  padding-block-start: 1.125rem;
+  border-block-start: 1px solid var(--glass-border);
+  text-align: start;
+}
+
+.project-dialog-section-title {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-accent-muted);
+}
+
+.project-dialog-section-text {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.project-dialog-highlights {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.project-dialog-highlight-item {
+  display: grid;
+  grid-template-columns: 0.75rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.project-dialog-bullet {
+  color: var(--text-accent-muted);
+  font-weight: 600;
+}
+
+.project-dialog-stack {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.project-dialog-pill {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.project-dialog-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.375rem;
+  border-block-start: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.project-dialog-footer-split {
+  justify-content: space-between;
+}
+
+.project-dialog-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-block-size: 44px;
+  padding: 0.55rem 1rem;
+  border-radius: var(--radius-btn);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.project-dialog-link-secondary {
+  border: 1px solid var(--glass-border-control);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+}
+
+.project-dialog-link-secondary:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+}
+
+.project-dialog-link-primary {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background-color: var(--btn-primary-bg);
+  color: var(--text-primary);
+}
+
+.project-dialog-link-primary:hover {
+  background-color: var(--btn-primary-hover);
+}
+
+@media (min-width: 40rem) {
+  .project-dialog-header {
+    padding: 1.5rem 1.75rem 1.125rem;
+  }
+
+  .project-dialog-body {
+    padding: 1.5rem 1.75rem 1.75rem;
+  }
+
+  .project-dialog-footer {
+    padding: 1.125rem 1.75rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .project-dialog-surface,
+  .project-dialog-section,
+  .project-dialog-pill,
+  .dialog-close-btn,
+  .project-dialog-link {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+    backdrop-filter: none;
+  }
+}

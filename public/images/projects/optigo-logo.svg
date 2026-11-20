@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="100 50 300 305"
+   width="100%"
+   height="100%"
+   role="img"
+   aria-label="OptiGo Logo"
+   version="1.1"
+   id="svg26"
+   sodipodi:docname="gemini-svg.svg"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview26"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.870935"
+     inkscape:cx="203.6415"
+     inkscape:cy="171.83921"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1352"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="optigo-icon" />
+  <defs
+     id="defs12">
+    <!-- Degradado principal azul a verde lima -->
+    <linearGradient
+       id="optigo-grad"
+       x1="170"
+       y1="245"
+       x2="335"
+       y2="80"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#0077E6"
+         id="stop1" />
+      <stop
+         offset="48%"
+         stop-color="#0099F2"
+         id="stop2" />
+      <stop
+         offset="72%"
+         stop-color="#4CC466"
+         id="stop3" />
+      <stop
+         offset="100%"
+         stop-color="#84D936"
+         id="stop4" />
+    </linearGradient>
+    <!-- Degradado para el anillo G -->
+    <linearGradient
+       id="g-ring-grad"
+       x1="190"
+       y1="220"
+       x2="315"
+       y2="115"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#0077E6"
+         id="stop5" />
+      <stop
+         offset="55%"
+         stop-color="#0095EE"
+         id="stop6" />
+      <stop
+         offset="82%"
+         stop-color="#3EC16D"
+         id="stop7" />
+      <stop
+         offset="100%"
+         stop-color="#7CD43B"
+         id="stop8" />
+    </linearGradient>
+    <!-- Degradado para la punta de la flecha -->
+    <linearGradient
+       id="arrow-head-grad"
+       x1="270"
+       y1="145"
+       x2="325"
+       y2="82"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#0088EB"
+         id="stop9" />
+      <stop
+         offset="45%"
+         stop-color="#22B29A"
+         id="stop10" />
+      <stop
+         offset="80%"
+         stop-color="#76CE3E"
+         id="stop11" />
+      <stop
+         offset="100%"
+         stop-color="#92E038"
+         id="stop12" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#g-ring-grad"
+       id="linearGradient26"
+       gradientUnits="userSpaceOnUse"
+       x1="190"
+       y1="220"
+       x2="315"
+       y2="115"
+       gradientTransform="translate(-4.0086909,3.2069527)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#g-ring-grad"
+       id="linearGradient27"
+       gradientUnits="userSpaceOnUse"
+       x1="190"
+       y1="220"
+       x2="315"
+       y2="115"
+       gradientTransform="matrix(1.0560234,0,0,1.0392561,-16.950752,-8.6591932)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#optigo-grad"
+       id="linearGradient28"
+       gradientUnits="userSpaceOnUse"
+       x1="170"
+       y1="245"
+       x2="335"
+       y2="80"
+       gradientTransform="translate(-1.0689842,-1.6034763)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#optigo-grad"
+       id="linearGradient29"
+       gradientUnits="userSpaceOnUse"
+       x1="170"
+       y1="245"
+       x2="335"
+       y2="80"
+       gradientTransform="translate(-1.133829,-1.133829)" />
+  </defs>
+  <!-- Isotipo -->
+  <g
+     id="optigo-icon">
+    <!-- Arco superior izquierdo de la G (con corte interior) -->
+    <path
+       fill="url(#g-ring-grad)"
+       fill-rule="evenodd"
+       d="m 253.91925,93.395756 c -26.18968,-1.807945 -51.07355,11.473794 -63.81787,34.062684 -12.74431,22.58891 -7.31362,53.31069 8.09293,74.23137 l 11.82239,-13.66235 c -11.0755,-15.02682 -12.44374,-35.27219 -3.3003,-51.50916 9.14344,-16.23696 27.01158,-25.79673 45.83002,-24.51986 z m -9.0818,5.611982 c -30.33019,2.087332 -54.60794,25.582872 -57.23647,55.392352 l 3.16807,0.31177 c 2.47594,-28.28684 25.50108,-50.59371 54.2796,-52.58635 z"
+       id="path12"
+       style="fill:url(#linearGradient27);stroke-width:1.04761"
+       sodipodi:nodetypes="csccsccccccc" />
+    <!-- Gancho inferior derecho y barra transversal de la G -->
+    <path
+       fill="url(#g-ring-grad)"
+       d="m 211.8517,216.97438 c 13.31749,13.12132 54.56211,14.25416 73.82522,0.046 18.41292,-13.58107 28.42545,-35.76109 26.01439,-58.51341 h -47.7 l -14,15 h 43.2 c -5.39524,29.2506 -40.78201,43.53248 -67.96797,31.46477 z"
+       id="path13"
+       style="fill:url(#linearGradient26)"
+       sodipodi:nodetypes="cscccccc" />
+    <!-- Arco interior inferior azul -->
+    <path
+       fill="#0084eb"
+       d="M 227.40755,203.02013 C 251.39042,210.59226 280.53551,200.06644 290,177.4 l -7.61353,0.12046 c -7.45616,18.40663 -31.27158,22.94696 -50.26406,20.94165 z"
+       id="path14"
+       sodipodi:nodetypes="ccccc"
+       style="stroke-width:1.15331" />
+    <!-- Red de nodos superior izquierda -->
+    <g
+       id="network-nodes-left"
+       stroke-linecap="round"
+       transform="matrix(0.88916062,0,0,0.7396316,30.035009,30.577075)">
+      <line
+         x1="271"
+         y1="113"
+         x2="246"
+         y2="116"
+         stroke="#45b86e"
+         stroke-width="2.6"
+         id="line14" />
+      <line
+         x1="271"
+         y1="113"
+         x2="255"
+         y2="136"
+         stroke="#36ae85"
+         stroke-width="2.6"
+         id="line15" />
+      <line
+         x1="246"
+         y1="116"
+         x2="255"
+         y2="136"
+         stroke="#1399c7"
+         stroke-width="2.6"
+         id="line16" />
+      <line
+         x1="246"
+         y1="116"
+         x2="237"
+         y2="158"
+         stroke="#0b8ce0"
+         stroke-width="2.6"
+         id="line17" />
+      <line
+         x1="255"
+         y1="136"
+         x2="237"
+         y2="158"
+         stroke="#0882e6"
+         stroke-width="2.6"
+         id="line18" />
+      <circle
+         cx="271"
+         cy="113"
+         r="4.8000002"
+         fill="#8dc63f"
+         id="circle18" />
+      <circle
+         cx="246"
+         cy="116"
+         r="4.1999998"
+         fill="#1aa3b8"
+         id="circle19" />
+      <circle
+         cx="255"
+         cy="136"
+         r="3.8"
+         fill="#0e8ce0"
+         id="circle20" />
+      <circle
+         cx="237"
+         cy="158"
+         r="4.5999999"
+         fill="#087be6"
+         id="circle21" />
+    </g>
+    <!-- Nodo de conexión derecho -->
+    <g
+       id="network-node-right"
+       stroke="#76ce3e"
+       stroke-width="2.4"
+       stroke-linecap="round"
+       transform="translate(-13.629549,-1.8707224)">
+      <line
+         x1="306"
+         y1="156"
+         x2="306"
+         y2="138"
+         id="line21" />
+      <line
+         x1="306"
+         y1="138"
+         x2="291"
+         y2="153"
+         id="line22" />
+      <circle
+         cx="306"
+         cy="138"
+         r="4.4000001"
+         fill="#76ce3e"
+         stroke="none"
+         id="circle22" />
+    </g>
+    <!-- Flecha diagonal ascendente -->
+    <g
+       id="diagonal-arrow"
+       transform="translate(-2.267658,0.377943)">
+      <!-- Nodo circular inicial -->
+      <circle
+         cx="178"
+         cy="237"
+         r="11"
+         fill="none"
+         stroke="#0077e6"
+         stroke-width="6.8"
+         id="circle23" />
+      <!-- Franja superior del cuerpo de la flecha -->
+      <path
+         fill="url(#optigo-grad)"
+         d="m 183.93102,225.89652 c 27,-33.5 63,-71.5 99,-113.5 l 4.5,4.5 c -37,40 -73,78 -101,111.5 z"
+         id="path23"
+         style="fill:url(#linearGradient28)" />
+      <!-- Franja inferior del cuerpo de la flecha -->
+      <path
+         fill="url(#optigo-grad)"
+         d="m 187.86617,230.36617 c 35,-29.5 71,-65.5 102.5,-110 l 4.5,4.5 c -34,43 -70,79 -104.5,108 z"
+         id="path24"
+         style="fill:url(#linearGradient29)" />
+      <!-- Punta de flecha con calados interiores -->
+      <path
+         fill="url(#arrow-head-grad)"
+         fill-rule="evenodd"
+         d="m 332,78 -68,18 20,18 12,12 18,20 z m -16,11 -33,9 10,8 2,-5 13,-8 z m 5,5 -9,33 -8,-10 5,-2 8,-13 z"
+         id="path25"
+         style="fill:url(#arrow-head-grad)" />
+    </g>
+  </g>
+  <!-- Tipografía OptiGo -->
+  <text
+     id="optigo-wordmark"
+     x="250"
+     y="322"
+     text-anchor="middle"
+     font-family="'Montserrat', 'Poppins', 'Inter', system-ui, -apple-system, sans-serif"
+     font-size="74"
+     font-weight="700"
+     letter-spacing="-1.5"><tspan
+       fill="#0881E8"
+       id="tspan25">Opti</tspan><tspan
+       fill="#76CE3E"
+       id="tspan26">Go</tspan></text>
+</svg>

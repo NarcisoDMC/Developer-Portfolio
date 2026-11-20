@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1200 900"
+   width="1200"
+   height="900"
+   version="1.1"
+   id="svg7"
+   sodipodi:docname="librerio-logo.svg"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.89666667"
+     inkscape:cx="600"
+     inkscape:cy="360.78067"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1352"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg7" />
+  <defs
+     id="defs1">
+    <!-- Máscara de recorte para generar el contorno blanco limpio donde el texto cruza el libro -->
+    <mask
+       id="librerio-cutout">
+      <rect
+         width="1200"
+         height="900"
+         fill="#ffffff"
+         id="rect1" />
+      <text
+         x="68 243 330 480 620 758 874 954"
+         y="536"
+         font-family="'Times New Roman', Georgia, 'Liberation Serif', serif"
+         font-size="318"
+         font-weight="400"
+         fill="#000000"
+         stroke="#000000"
+         stroke-width="16"
+         stroke-linejoin="round"
+         stroke-linecap="round"
+         id="text1">Librerio</text>
+    </mask>
+  </defs>
+  <!-- Fondo blanco (elimina esta línea si necesitas fondo transparente) -->
+  <!-- Ícono del libro abierto con sus tres capas de páginas y lomo inferior -->
+  <g
+     mask="url(#librerio-cutout)"
+     fill="none"
+     stroke="#3b077e"
+     stroke-width="17"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="g7">
+    <!-- Capa exterior (portada y base del lomo) -->
+    <path
+       d="M 312 256 L 256 256 L 256 696 L 536 722 C 556 755, 644 755, 664 722 L 944 696 L 944 256 L 888 256"
+       id="path2" />
+    <!-- Relleno sólido de la pestaña curva inferior del lomo -->
+    <path
+       d="M 532 721 Q 600 726 668 721 C 646 756, 554 756, 532 721 Z"
+       fill="#3b077e"
+       stroke="none"
+       id="path3" />
+    <!-- Segunda capa de páginas (intermedia) -->
+    <path
+       d="M 364 205 L 312 205 L 312 632 Q 465 642 600 678"
+       id="path4" />
+    <path
+       d="M 836 205 L 888 205 L 888 632 Q 735 642 600 678"
+       id="path5" />
+    <!-- Primera capa de páginas (interior principal) -->
+    <path
+       d="M 600 278 Q 495 182 364 158 L 364 580 Q 495 595 600 665"
+       id="path6" />
+    <path
+       d="M 600 278 Q 705 182 836 158 L 836 580 Q 705 595 600 665"
+       id="path7" />
+    <!-- Lomo central vertical -->
+    <line
+       x1="600"
+       y1="278"
+       x2="600"
+       y2="665"
+       id="line7" />
+  </g>
+  <!-- Tipografía "Librerio" alineada con las columnas del libro -->
+  <text
+     x="68 243 330 480 620 758 874 954"
+     y="536"
+     font-family="'Times New Roman', Georgia, 'Liberation Serif', serif"
+     font-size="318"
+     font-weight="400"
+     fill="#3b077e"
+     id="text7">Librerio</text>
+</svg>
